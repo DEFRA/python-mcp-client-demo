@@ -1,8 +1,8 @@
-# cdp-python-backend-template
+# python-mcp-client-demo
 
 This is work-in-progress. See [To Do List](./TODO.md)
 
-- [cdp-python-backend-template](#cdp-python-backend-template)
+- [python-mcp-client-demo](#python-mcp-client-demo)
   - [Requirements](#requirements)
     - [Python](#python)
     - [Linting and Formatting](#linting-and-formatting)
