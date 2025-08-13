@@ -10,7 +10,6 @@ ENV LOG_CONFIG="logging-dev.json"
 
 USER root
 
-# curl is required for CDP health checks
 # Install curl via Debian 13 (trixie) backport to patch CVE-2025-0725
 RUN echo "deb https://deb.debian.org/debian bookworm-backports main" > /etc/apt/sources.list.d/bookworm-backports.list \
     && apt update \
@@ -24,10 +23,12 @@ WORKDIR /home/nonroot
 
 COPY --chown=nonroot:nonroot pyproject.toml .
 COPY --chown=nonroot:nonroot uv.lock .
+COPY --chown=nonroot:nonroot README.md .
+COPY --chown=nonroot:nonroot app/ ./app/
 
 RUN uv sync --frozen --no-cache
+RUN uv build
 
-COPY --chown=nonroot:nonroot app/ ./app/
 COPY --chown=nonroot:nonroot logging-dev.json .
 
 ARG PORT=8085
@@ -35,7 +36,7 @@ ARG PORT_DEBUG=8086
 ENV PORT=${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-CMD [ "-m", "app.main" ]
+ENTRYPOINT [ "python-mcp-client-demo" ]
 
 FROM defradigital/python:${PARENT_VERSION} AS production
 
@@ -55,13 +56,13 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
+COPY --chown=nonroot:nonroot --from=development /home/nonroot/app/ ./app/
 COPY --chown=nonroot:nonroot --from=development /home/nonroot/.venv .venv/
 
-COPY --chown=nonroot:nonroot --from=development /home/nonroot/app/ ./app/
 COPY --chown=nonroot:nonroot logging.json .
 
 ARG PORT
 ENV PORT=${PORT}
 EXPOSE ${PORT}
 
-CMD [ "-m", "app.main" ]
+ENTRYPOINT [ "python-mcp-client-demo" ]
