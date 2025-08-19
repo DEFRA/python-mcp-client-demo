@@ -27,7 +27,7 @@ COPY --chown=nonroot:nonroot README.md .
 COPY --chown=nonroot:nonroot app/ ./app/
 
 RUN uv sync --frozen --no-cache
-RUN uv build
+RUN uv build --no-cache
 
 COPY --chown=nonroot:nonroot logging-dev.json .
 
@@ -36,11 +36,11 @@ ARG PORT_DEBUG=8086
 ENV PORT=${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-ENTRYPOINT [ "python-mcp-client-demo" ]
+CMD [ "-m", "app.entrypoints.http.main" ]
 
 FROM defradigital/python:${PARENT_VERSION} AS production
 
-ENV PATH="/home/nonroot/.venv/bin:${PATH}"
+ENV PATH="/home/nonroot/.local/bin:${PATH}"
 ENV LOG_CONFIG="logging.json"
 
 USER root
@@ -57,9 +57,11 @@ USER nonroot
 WORKDIR /home/nonroot
 
 COPY --chown=nonroot:nonroot --from=development /home/nonroot/app/ ./app/
-COPY --chown=nonroot:nonroot --from=development /home/nonroot/.venv .venv/
+COPY --chown=nonroot:nonroot --from=development /home/nonroot/dist/ ./dist/
 
 COPY --chown=nonroot:nonroot logging.json .
+
+RUN pip install dist/*.whl
 
 ARG PORT
 ENV PORT=${PORT}
