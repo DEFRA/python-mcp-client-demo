@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.chat.services import process_weather_message
-from app.chat.models import WeatherChatRequest
+from app.weather_chat.services import process_weather_message
+from app.weather_chat.models import WeatherChatRequest
 
 from logging import getLogger
 

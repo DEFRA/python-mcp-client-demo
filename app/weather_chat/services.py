@@ -1,5 +1,4 @@
 from logging import getLogger
-import os
 
 import boto3
 
