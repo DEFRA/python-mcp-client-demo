@@ -7,7 +7,7 @@ from app.config import config
 logger = getLogger(__name__)
 
 
-def process_weather_message(message: str):      
+def process_weather_message(message: str):
     client = boto3.client(
         service_name="bedrock-runtime",
         region_name=config.aws_region
@@ -22,10 +22,8 @@ def process_weather_message(message: str):
         }
     ]
 
-    response = client.converse(
+    return client.converse(
         modelId=model_id,
         messages=messages,
     )
-
-    return response
 
