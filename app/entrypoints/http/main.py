@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from app.common.mongo import get_mongo_client
 from app.common.tracing import TraceIdMiddleware
 from app.config import config
+from app.chat.router import router as chat_router
 from app.example.router import router as example_router
 from app.health.router import router as health_router
 
@@ -33,6 +34,7 @@ app.add_middleware(TraceIdMiddleware)
 # Setup Routes
 app.include_router(health_router)
 app.include_router(example_router)
+app.include_router(chat_router)
 
 
 def main() -> None:
