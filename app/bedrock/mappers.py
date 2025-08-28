@@ -11,9 +11,9 @@ def mcp_tool_to_bedrock(tool):
         },
     }
 
-def mcp_tool_result_to_bedrock(toolUseId, result):
+def mcp_tool_result_to_bedrock(tool_use_id, result):
     response = {
-        "toolUseId": toolUseId
+        "toolUseId": tool_use_id
     }
 
     response["content"] = {
@@ -22,7 +22,7 @@ def mcp_tool_result_to_bedrock(toolUseId, result):
         }
     }
 
-    if result.isError == True:
+    if result.isError:
         response["status"] = "error"
 
     return response

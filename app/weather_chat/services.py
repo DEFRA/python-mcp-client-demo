@@ -21,7 +21,5 @@ async def process_weather_message(message: str):
 
         weather_agent = WeatherAgent(client, mcp_session)
 
-        response = await weather_agent.run(message)
-
-        return response
+        return await weather_agent.run(message)
 

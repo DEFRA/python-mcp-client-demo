@@ -1,8 +1,9 @@
 from logging import getLogger
 
-from app.bedrock.mappers import mcp_tool_to_bedrock, mcp_tool_result_to_bedrock
 import boto3
 from mcp import ClientSession
+
+from app.bedrock.mappers import mcp_tool_to_bedrock
 
 logger = getLogger(__name__)
 
@@ -20,8 +21,6 @@ class WeatherAgent:
                 mcp_tool_to_bedrock(tool)
                 for tool in (await self.mcp_session.list_tools()).tools
             ]
-
-            logger.info(f"Using mpc tools: {self.tools}")
 
         self.messages.append({"role": "user", "content": [{"text": prompt}]})
 
@@ -53,7 +52,7 @@ class WeatherAgent:
                 if "toolUse" in request:
                     tool = request["toolUse"]
 
-                    logger.info(f"Invoking tool: {tool}")
+                    logger.info("Invoking MCP tool: %s", tool["name"])
 
                     tool_response = await self.mcp_session.call_tool(
                         tool["name"],
