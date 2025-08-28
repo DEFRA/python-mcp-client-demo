@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppConfig(BaseSettings):
     model_config = SettingsConfigDict()
     python_env: str = "development"
-    host: str
+    host: str | None = None
     port: int
     log_config: str
     mongo_uri: str
