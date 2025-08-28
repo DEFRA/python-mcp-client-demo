@@ -3,8 +3,8 @@ from logging import getLogger
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 
-from app.config import config
 from app.bedrock.client import client
+from app.config import config
 from app.weather_chat.agents import WeatherAgent
 
 logger = getLogger(__name__)
