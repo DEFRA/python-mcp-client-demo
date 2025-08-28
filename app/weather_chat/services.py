@@ -11,6 +11,8 @@ logger = getLogger(__name__)
 
 
 async def process_weather_message(message: str):
+    logger.info("Connecting to MCP service at %s", config.mcp_url)
+
     async with streamablehttp_client(config.mcp_url) as (r, w, _), ClientSession(r, w) as mcp_session:
         await mcp_session.initialize()
 
