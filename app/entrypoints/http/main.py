@@ -9,6 +9,7 @@ from app.common.tracing import TraceIdMiddleware
 from app.config import config
 from app.example.router import router as example_router
 from app.health.router import router as health_router
+from app.weather_chat.router import router as weather_chat_router
 
 logger = getLogger(__name__)
 
@@ -33,7 +34,7 @@ app.add_middleware(TraceIdMiddleware)
 # Setup Routes
 app.include_router(health_router)
 app.include_router(example_router)
-
+app.include_router(weather_chat_router)
 
 def main() -> None:
     uvicorn.run(

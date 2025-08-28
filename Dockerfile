@@ -1,5 +1,5 @@
 # Set default values for build arguments
-ARG PARENT_VERSION=latest-3.12
+ARG PARENT_VERSION=latest-3.13
 ARG PORT=8085
 ARG PORT_DEBUG=8086
 
@@ -36,7 +36,7 @@ ARG PORT_DEBUG=8086
 ENV PORT=${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
-CMD [ "-m", "app.entrypoints.http.main" ]
+ENTRYPOINT [ "python", "-m", "app.entrypoints.http.main" ]
 
 FROM defradigital/python:${PARENT_VERSION} AS production
 
