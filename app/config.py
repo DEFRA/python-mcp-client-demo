@@ -15,7 +15,6 @@ class AppConfig(BaseSettings):
     http_proxy: HttpUrl | None = None
     enable_metrics: bool = False
     tracing_header: str = "x-cdp-request-id"
-    bedrock_endpoint_url: str | None = None
     aws_region: str | None = None
     mcp_url: str | None = None
 
